@@ -28,7 +28,7 @@ async function main() {
 
         island.setState("medium");
         island.setMessage(n.getText() ?? n.getTitle(), n.appIcon);
-        // clearTimeout(timeout);
+        clearTimeout(timeout);
         timeout = setTimeout(() => {
             island.setState("small");
         }, 2500);
@@ -36,7 +36,7 @@ async function main() {
     island.onMessageClick(() => {
         island.setExpandedMessage(lastNotification.getTitle(), lastNotification.getText(), lastNotification.appIcon);
         island.setState("large");
-        // clearTimeout(timeout);
+        clearTimeout(timeout);
         timeout = setTimeout(() => {
             island.setState("small");
         }, 2500);
@@ -45,7 +45,7 @@ async function main() {
         lastNotification?.click();
         lastNotification = undefined;
         island.setState("small");
-        // clearTimeout(timeout);
+        clearTimeout(timeout);
     });
     console.log("阻塞");
     const id = $autojs.keepRunning();
@@ -81,30 +81,30 @@ class DynamicIsland {
     }
 
     async show() {
-        // 如果项目保存到设备可以使用这中方式
-        await this.window.setViewFromXmlFile('./island.xml');
+        // 如果项目保存到设备可以使用这种方式
+        // await this.window.setViewFromXmlFile('./island.xml');
 
         // 远程调试使用这种方式
-        //     await this.window.setViewFromXml(`<frame>
-        //     <column animateLayoutChanges="true" w="1440px" gravity="center">
-        //         <card id="card" cardBackgroundColor="#000000">
-        //             <frame>
-        //                 <row id="message" visibility="gone" gravity="center_vertical" w="*">
-        //                     <img id="messageIcon" w="18" h="18" marginLeft="12" />
-        //                     <text id="messageText" textColor="#ffffff" textSize="12" marginLeft="8" marginRight="12" ellipsize="end" maxLines="1" />
-        //                 </row>
-        //                 <row id="expandedMessage" visibility="gone" gravity="center_vertical" w="*">
-        //                     <img id="expandedMessageIcon" w="48" h="48" marginLeft="24" />
-        //                     <column marginLeft="12" marginRight="24">
-        //                         <text id="expandedMessageTitle" textColor="#ffffff" textSize="14" ellipsize="end" maxLines="1" />
-        //                         <text id="expandedMessageContent" textColor="#9f9f9f" marginTop="8" textSize="12" ellipsize="end" maxLines="1" />
-        //                     </column>
-        //                 </row>
-        //             </frame>
-        //         </card>
-        //     </column>
-        // </frame>
-        // `);
+        await this.window.setViewFromXml(`<frame>
+            <column animateLayoutChanges="true" w="1440px" gravity="center">
+                <card id="card" cardBackgroundColor="#000000">
+                    <frame>
+                        <row id="message" visibility="gone" gravity="center_vertical" w="*">
+                            <img id="messageIcon" w="18" h="18" marginLeft="12" />
+                            <text id="messageText" textColor="#ffffff" textSize="12" marginLeft="8" marginRight="12" ellipsize="end" maxLines="1" />
+                        </row>
+                        <row id="expandedMessage" visibility="gone" gravity="center_vertical" w="*">
+                            <img id="expandedMessageIcon" w="48" h="48" marginLeft="24" />
+                            <column marginLeft="12" marginRight="24">
+                                <text id="expandedMessageTitle" textColor="#ffffff" textSize="14" ellipsize="end" maxLines="1" />
+                                <text id="expandedMessageContent" textColor="#9f9f9f" marginTop="8" textSize="12" ellipsize="end" maxLines="1" />
+                            </column>
+                        </row>
+                    </frame>
+                </card>
+            </column>
+        </frame>
+        `);
 
         this.card = this.window.view.findView('card');
         this.messageContainer = this.window.view.findView("message");
